@@ -20,8 +20,10 @@ function Home(){
 
   async function getData() {
     const expenseResult = await db.getAllAsync<Expense>(`SELECT * FROM expense order by date`); 
-    
     setExpenses(expenseResult);
+
+    const balanceResult = await db.getAllAsync<Balance>(`SELECT * FROM balance`); 
+    setBalances(balanceResult);
   }
 
   async function deleteExpense(id:number) {
