@@ -6,7 +6,7 @@ import { Suspense, useEffect, useState } from 'react';
 import { SQLiteProvider } from 'expo-sqlite/next';
 import { NavigationContainer } from '@react-navigation/native';
 import Tabs from './components/Tabs'; // Import the Tabs component
-import Header from './components/header';
+import Header from './components/Header';
 
 const LoadDatabase = async () => {
   const dbName = "FinTrack.db";

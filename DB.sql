@@ -46,7 +46,7 @@ INSERT INTO expense (name, amount, date, balance_id) VALUES ('Coffe', '25', '8/2
 INSERT INTO expense (name, amount, date, balance_id) VALUES ('Taxi', '15', '8/24/2024', 5);
 INSERT INTO expense (name, amount, date, balance_id) VALUES ('Dinner', '125', '8/24/2024', 2);
 INSERT INTO expense (name, amount, date, balance_id) VALUES ('pool', '30', '8/24/2024', 3);
-
+INSERT INTO expense (name, amount, date, balance_id) VALUES ('Transport', '260', '8/25/2024', 1);
 
 -- plans table
 INSERT INTO plans (name, amount, balance_id) VALUES ('Gym', '800', 1);
