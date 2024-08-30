@@ -3,7 +3,7 @@ import { View, Text, SafeAreaView,StyleSheet, ScrollView} from 'react-native'
 import { Balance, Expense } from '../types';
 import { useSQLiteContext } from 'expo-sqlite';
 import ExpensesList from '../components/ExpensesList';
-
+import Card from '../components/UI/Card';
 
 function Home(){
 
@@ -35,6 +35,7 @@ function Home(){
 
   return (
     <SafeAreaView style={styles.container}>
+      <Card/>
       <Text>Home</Text>
       <ScrollView>
         <ExpensesList
@@ -52,7 +53,7 @@ function Home(){
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    marginVertical:30,
+    marginVertical:10,
     
   }
 });
