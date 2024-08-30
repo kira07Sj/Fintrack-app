@@ -4,6 +4,7 @@ import { Balance, Expense } from '../types';
 import { useSQLiteContext } from 'expo-sqlite';
 import ExpensesList from '../components/ExpensesList';
 import Card from '../components/UI/Card';
+import CardExpense from '../components/UI/CardExpense';
 
 function Home(){
 
@@ -36,8 +37,10 @@ function Home(){
   return (
     <SafeAreaView style={styles.container}>
       <Card/>
-      <Text>Home</Text>
-      <ScrollView>
+      <View style={styles.btnArea}>
+      <Text style={styles.text}>Expenses</Text>
+      </View>
+      <ScrollView style={styles.scrollContainer}>
         <ExpensesList
           balances={balances}
           expenses={expenses}
@@ -54,8 +57,25 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     marginVertical:10,
-    
+  },
+  scrollContainer:{
+    height:'50%'
+  },
+  btnArea:{
+    width:300,
+    height:30,
+    display:'flex',
+    justifyContent:'space-between',
+    alignContent:'center',
+    marginLeft:10,
+    marginVertical:10
+  },
+  text:{
+    fontWeight:'700',
+    color:'#127350',
+    fontSize:16
   }
+
 });
 
 export default Home
