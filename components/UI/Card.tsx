@@ -2,12 +2,14 @@
 
 import React, { PropsWithChildren } from 'react';
 import { View, Text, StyleSheet, ImageBackground, ViewStyle } from 'react-native';
+import { TotalAmount } from '../../types';
 
-interface CardProps extends PropsWithChildren{
-    style?: ViewStyle;
+interface CardProps
+{
+    totalValue: TotalAmount
 }
 
-export default function Card({children}: CardProps) {
+export default function Card({totalValue}: CardProps) {
     return (
         <ImageBackground
             source={require('../../assets/cardBg.png')} // Relative path to the image
@@ -18,13 +20,13 @@ export default function Card({children}: CardProps) {
             </View>
             <View style={styles.content}>
                 <View>
-                    <Text style={styles.innerText}>Total Amount</Text>
-                    <Text style={styles.amount}>5750</Text>
+                    <Text style={styles.innerText}>Total Balance</Text>
+                    <Text style={styles.amount}>{totalValue.totalBalance}</Text>
                 </View>
 
                 <View>
                     <Text style={styles.innerText}>Total Spent</Text>
-                    <Text style={styles.amount}>750</Text>
+                    <Text style={styles.amount}>{totalValue.totalExpense}</Text>
                 </View>
             </View>
         </ImageBackground>

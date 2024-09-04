@@ -21,3 +21,9 @@ export interface Plans
     amount: number;
     balance_id: number;
 }
+
+export interface TotalAmount
+{
+    totalExpense: number;
+    totalBalance: number;   
+}
