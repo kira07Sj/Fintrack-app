@@ -25,7 +25,7 @@ function Home() {
   }, [db]);
 
   async function getData() {
-    const expenseResult = await db.getAllAsync<Expense>(`SELECT * FROM expense ORDER BY date`);
+    const expenseResult = await db.getAllAsync<Expense>(`SELECT * FROM expense ORDER BY id DESC`);
     setExpenses(expenseResult);
 
     // Correct way to handle SUM query result
@@ -49,8 +49,27 @@ function Home() {
     db.withTransactionAsync(async () => {
       await db.runAsync(`DELETE FROM expense WHERE id = ?;`, [id]);
     });
+
+    
     await getData();
   }
+
+  function handleAddEntry(name: string, amount: number, paymentMethodId: number, date: string) {
+    db.withTransactionAsync(async () => {
+      await db.runAsync(
+        `INSERT INTO expense (name, amount, date, balance_id) VALUES (?, ?, ?, ?);`,
+        [name, amount, date, paymentMethodId] // Include date in the insertion
+      );
+
+      await db.runAsync(
+        `UPDATE balance SET amount = amount - ? WHERE id = ?`,
+        [amount, paymentMethodId]
+      );
+
+      await getData(); // Refresh data after insertion
+    });
+  }
+  
 
   return (
     <SafeAreaView style={styles.container}>
@@ -73,7 +92,7 @@ function Home() {
       <InsertionOverlay
         visible={isOverlay}
         onClose={() => setIsOverlay(false)} // Close overlay when Cancel or Submit is pressed
-        
+        onSubmit={handleAddEntry}
         paymentMethodes={balances}
       />
     </SafeAreaView>

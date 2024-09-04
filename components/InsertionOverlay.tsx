@@ -1,39 +1,41 @@
 import React, { useState } from 'react';
-import { Modal, View, Text, TextInput, Button, StyleSheet, TouchableOpacity, ImageBackground, } from 'react-native';
+import { Modal, View, Text, TextInput, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import { Balance } from '../types';
 
 interface InsertionOverlayProps {
   visible: boolean;
   onClose: () => void;
-//   onSubmit: (name: string, amount: number, paymentMethod: string) => void;
+  onSubmit: (name: string, amount: number, paymentMethodId: number, date: string) => void; // Updated
   paymentMethodes: Balance[];
 }
 
-function InsertionOverlay({ visible, onClose, paymentMethodes,  }: InsertionOverlayProps) {
+const InsertionOverlay: React.FC<InsertionOverlayProps> = ({ visible, onClose, paymentMethodes, onSubmit }) => {
   const [name, setName] = useState('');
   const [amount, setAmount] = useState('');
-  const [paymentMethod, setPaymentMethod] = useState<string | null>(null);
+  const [selectedPaymentMethodId, setSelectedPaymentMethodId] = useState<number | null>(null);
 
   const handleSubmit = () => {
     const numericAmount = parseFloat(amount);
-    if (!isNaN(numericAmount) && name.trim() !== '' && paymentMethod) {
-      
+    const currentDate = new Date().toISOString().split('T')[0]; // Get current date in YYYY-MM-DD format
+    if (!isNaN(numericAmount) && name.trim() !== '' && selectedPaymentMethodId !== null) {
+      onSubmit(name, numericAmount, selectedPaymentMethodId, currentDate); // Include current date in the call
       setName('');
       setAmount('');
-      setPaymentMethod(null);
+      setSelectedPaymentMethodId(null);
       onClose();
+    } else {
+      alert('Please enter a valid name, amount, and select a payment method.');
     }
   };
 
-    
   return (
     <Modal visible={visible} animationType="slide" transparent onRequestClose={onClose}>
       <TouchableOpacity style={styles.overlayContainer} >
         <View style={styles.overlayContent}>
-        <TouchableOpacity onPress={onClose}>
-              <ImageBackground style={styles.closeBtn} source={require('../assets/close.png')}/>
-            </TouchableOpacity>
+          <TouchableOpacity onPress={onClose}>
+            <ImageBackground style={styles.closeBtn} source={require('../assets/close.png')} />
+          </TouchableOpacity>
           <TextInput
             style={styles.input}
             placeholder="Expense Name"
@@ -47,26 +49,24 @@ function InsertionOverlay({ visible, onClose, paymentMethodes,  }: InsertionOver
             onChangeText={setAmount}
             keyboardType="numeric"
           />
-        <View style={styles.dropdown}>
-        <RNPickerSelect
-              onValueChange={(value) => setPaymentMethod(value)}
+          <View style={styles.dropdown}>
+            <RNPickerSelect
+              onValueChange={(value) => setSelectedPaymentMethodId(value)}
               items={paymentMethodes.map((method) => ({
                 label: method.name,
-                value: method.name,
+                value: method.id,
               }))}
               placeholder={{ label: 'Select payment method...', value: null }}
             />
-        </View>
-
-          
-            <TouchableOpacity style={styles.btn}  onPress={handleSubmit}>
-              <Text style={styles.btnText}>Add</Text>
-            </TouchableOpacity>
+          </View>
+          <TouchableOpacity style={styles.btn} onPress={handleSubmit}>
+            <Text style={styles.btnText}>Add</Text>
+          </TouchableOpacity>
         </View>
       </TouchableOpacity>
     </Modal>
   );
-}
+};
 
 const styles = StyleSheet.create({
   overlayContainer: {
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
     display: 'flex',
-    alignItems:'center'
+    alignItems: 'center'
   },
   title: {
     fontSize: 20,
@@ -101,47 +101,41 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 15,
     paddingHorizontal: 10,
-    borderRadius:5
+    borderRadius: 5
   },
-  btn:{
-    width:100,
-    height:35,
+  btn: {
+    width: 100,
+    height: 35,
     display: 'flex',
     backgroundColor: '#69FAD7',
-    justifyContent:'center',
-    alignItems:'center',
+    justifyContent: 'center',
+    alignItems: 'center',
     borderRadius: 5,
     elevation: 3
   },
-  closeBtn:
-  {
-    width:24,
-    height:24,
+  closeBtn: {
+    width: 24,
+    height: 24,
     position: 'relative',
     marginLeft: 200,
-    marginBottom:5,
-    marginTop:-10
-    
+    marginBottom: 5,
+    marginTop: -10
   },
-  btnText:
-{
-  fontSize: 15,
-  fontWeight: '700'
-
-},
-dropdown:{
-    borderWidth:1,
-    width:'95%',
+  btnText: {
+    fontSize: 15,
+    fontWeight: '700'
+  },
+  dropdown: {
+    borderWidth: 1,
+    width: '95%',
     height: 45,
     borderColor: 'gray',
     marginBottom: 15,
     paddingHorizontal: 10,
-    borderRadius:5,
+    borderRadius: 5,
     display: 'flex',
-    justifyContent:'center'
-}
+    justifyContent: 'center'
+  }
 });
 
 export default InsertionOverlay;
-
-
