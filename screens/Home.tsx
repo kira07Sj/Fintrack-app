@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, SafeAreaView, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { Balance, Expense, TotalAmount } from '../types';
 import { useSQLiteContext } from 'expo-sqlite';
 import ExpensesList from '../components/ExpensesList';
 import Card from '../components/UI/Card';
+import InsertionOverlay from '../components/InsertionOverlay';
+
 
 function Home() {
   const [balances, setBalances] = useState<Balance[]>([]);
@@ -14,6 +16,7 @@ function Home() {
   });
 
   const db = useSQLiteContext();
+  const [isOverlay, setIsOverlay] = useState(false);
 
   useEffect(() => {
     db.withTransactionAsync(async () => {
@@ -54,6 +57,10 @@ function Home() {
       <Card totalValue={totalAmountByMonth} />
       <View style={styles.btnArea}>
         <Text style={styles.text}>Expenses</Text>
+
+        <TouchableOpacity style={styles.btn} onPress={() => setIsOverlay(true)}>
+          <Text style={styles.btnText}>Add</Text>
+        </TouchableOpacity>       
       </View>
       <ScrollView style={styles.scrollContainer}>
         <ExpensesList
@@ -62,6 +69,13 @@ function Home() {
           deleteExpense={deleteExpense}
         />
       </ScrollView>
+
+      <InsertionOverlay
+        visible={isOverlay}
+        onClose={() => setIsOverlay(false)} // Close overlay when Cancel or Submit is pressed
+        
+        paymentMethodes={balances}
+      />
     </SafeAreaView>
   );
 }
@@ -78,16 +92,33 @@ const styles = StyleSheet.create({
     width: 300,
     height: 30,
     display: 'flex',
+    flexDirection: 'row',
     justifyContent: 'space-between',
     alignContent: 'center',
     marginLeft: 10,
     marginVertical: 10,
+    paddingHorizontal:10
   },
   text: {
     fontWeight: '700',
     color: '#127350',
     fontSize: 16,
   },
+  btn:{
+    width:70,
+    display: 'flex',
+    backgroundColor: '#69FAD7',
+    justifyContent:'center',
+    alignItems:'center',
+    borderRadius: 5,
+    elevation: 3
+  },
+  btnText:
+{
+  fontSize: 15,
+  fontWeight: '700'
+
+}
 });
 
 export default Home;
