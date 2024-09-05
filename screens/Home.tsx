@@ -5,7 +5,7 @@ import { useSQLiteContext } from 'expo-sqlite';
 import ExpensesList from '../components/ExpensesList';
 import Card from '../components/UI/Card';
 import InsertionOverlay from '../components/InsertionOverlay';
-
+import { useFocusEffect } from '@react-navigation/native';
 
 function Home() {
   const [balances, setBalances] = useState<Balance[]>([]);
@@ -23,6 +23,12 @@ function Home() {
       await getData();
     });
   }, [db]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      getData(); // Refresh data when the overlay screen is opened
+    }, [])
+  );
 
   async function getData() {
     const expenseResult = await db.getAllAsync<Expense>(`SELECT * FROM expense ORDER BY id DESC`);
