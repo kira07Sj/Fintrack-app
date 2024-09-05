@@ -44,15 +44,42 @@ function Home() {
       totalExpense
     });
   }
-
-  async function deleteExpense(id: number) {
-    db.withTransactionAsync(async () => {
-      await db.runAsync(`DELETE FROM expense WHERE id = ?;`, [id]);
-    });
-
-    
-    await getData();
+  async function deleteExpense(id: number): Promise<void> {
+    try {
+      await db.withTransactionAsync(async () => {
+        // Fetch the expense details using its ID
+        const expenseResult = await db.getAllAsync<{ amount: number; payment_method_id: number }>(
+          `SELECT amount, balance_id FROM expense WHERE id = ?`,
+          [id]
+        );
+  
+        // Check if the expense exists before proceeding
+        if (expenseResult.length > 0) {
+          const { amount, payment_method_id } = expenseResult[0];
+          
+          // Update the balance: Add the amount back to the balance of the corresponding payment method
+          await db.runAsync(
+            `UPDATE balance SET amount = amount + ? WHERE id = ?`,
+            [amount, payment_method_id]
+            
+          );
+  
+          // Delete the expense from the expense table
+          await db.runAsync(`DELETE FROM expense WHERE id = ?;`, [id]);
+  
+          console.log(`Expense ID: ${id} deleted successfully and balance updated.`);
+        } else {
+          console.warn(`Expense with ID: ${id} not found.`);
+        }
+      });
+  
+      // Refresh the data after deletion and balance update
+      await getData();
+    } catch (error) {
+      console.error('Error deleting expense and updating balance:', error);
+    }
   }
+  
 
   function handleAddEntry(name: string, amount: number, paymentMethodId: number, date: string) {
     db.withTransactionAsync(async () => {
