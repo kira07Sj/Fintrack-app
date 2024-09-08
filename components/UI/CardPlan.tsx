@@ -1,5 +1,7 @@
 import { View,Text, StyleSheet, ImageBackground } from "react-native"
 import { Expense, Balance, Plans } from "../../types";
+import CheckBox from "./checkBox";
+
 
 interface plansProps
 {
@@ -26,6 +28,8 @@ export default function CardPlan({plans, balanceInfo}: plansProps){
                 style={styles.payBox}
                 >
                     <Text style={styles.paymentText}>{balanceInfo?.name}</Text>
+
+                    <CheckBox/>
                 </ImageBackground>
             </View>
         </View>
@@ -80,7 +84,9 @@ const styles = StyleSheet.create({
         height:40,
         borderRadius: 10,
         display:'flex',
-        justifyContent:'center'
+        justifyContent:'space-between',
+        flexDirection:'row',
+        alignItems: 'center'
     },
     paymentText:
     {
