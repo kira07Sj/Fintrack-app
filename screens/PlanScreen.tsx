@@ -1,72 +1,70 @@
-import React, { useEffect } from 'react'
-import { View, Text, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity} from 'react-native'
-import { Balance } from '../types';
-import { useState } from 'react';
+import React from 'react'
+import { View, Text,SafeAreaView, ScrollView, StyleSheet, TouchableOpacity} from 'react-native'
+import InsertionOverlay from '../components/InsertionOverlay'
+import { useEffect, useState,  } from 'react';
 import { useSQLiteContext } from 'expo-sqlite';
-import CardBalance from '../components/UI/CardBalance';
-import BalanceList from '../components/BalanceList';
-import BalanceInsertion from '../components/BalanceInsertion'
+import { Balance, Plans } from '../types';
 import { useFocusEffect } from '@react-navigation/native';
+import CardPlan from '../components/UI/CardPlan';
+import PlansList from '../components/PlansList';
 
 
-function BalancePage(){
-
-  
-  const [isOverlay, setIsOverlay] = useState(false);
+function PlanScreen(){
 
   const [balances, setBalances] = useState<Balance[]>([]);
+  const [plans, setPlans] = useState<Plans[]>([]);
+  
+  
   const db = useSQLiteContext();
+  const [isOverlay, setIsOverlay] = useState(false);
+
 
   useEffect(() => {
     db.withTransactionAsync(async () => {
       await getData();
     });
   }, [db]);
-  
+
   useFocusEffect(
     React.useCallback(() => {
       getData(); // Refresh data when the overlay screen is opened
     }, [])
   );
 
-
   async function getData() {
-    try {
-     
-      const balanceResult = await db.getAllAsync<Balance>(`SELECT * FROM balance`);
- 
-      setBalances(balanceResult);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
+
+    const balanceResult = await db.getAllAsync<Balance>(`SELECT * FROM balance`);
+    setBalances(balanceResult);
+
+    const plansResult = await db.getAllAsync<Plans>(`SELECT * FROM plans ORDER BY id DESC`);
+    setPlans(plansResult);
+
+  }
+
+  async function deleteplan(id: number): Promise<void> {
+    await db.runAsync(`DELETE FROM plans WHERE id = ?;`, [id]);
+    await getData();
   }
   
+  
+  function handleAddEntry(name: string, amount: number, paymentMethodId: number) {
+    db.withTransactionAsync(async () => {
+      await db.runAsync(
+        `INSERT INTO plans (name, amount, balance_id) VALUES (?, ?, ?);`,
+        [name, amount,paymentMethodId] // Include date in the insertion
+      );
 
-async function deleteBalance(id:number) {
-  await db.runAsync(`DELETE FROM balance WHERE id = ?`, [id])
-  await getData();
-}
-
-function handleAddEntry(name: string, amount: number) {
-  db.withTransactionAsync(async () => {
-    await db.runAsync(
-      `INSERT INTO balance (name, amount) VALUES (?, ?);`,
-      [name, amount] 
-    );
-
-    
-
-    await getData(); // Refresh data after insertion
-  });
-}
-
+      await getData(); // Refresh data after insertion
+    });
+  }
+  
 
 
   return (
     <SafeAreaView style={styles.container}>
       
       <View style={styles.btnArea}>
-        <Text style={styles.text}>Balances</Text>
+        <Text style={styles.text}>Plans</Text>
 
         <TouchableOpacity style={styles.btn} onPress={() => setIsOverlay(true)}>
           <Text style={styles.btnText}>Add</Text>
@@ -74,22 +72,24 @@ function handleAddEntry(name: string, amount: number) {
       </View>
 
       <ScrollView style={styles.Scrollcontainer}>
-          <BalanceList
-              balances={balances} 
-              deleteBalance={deleteBalance}      
+          <PlansList
+              plans={plans}
+              balances={balances}
+              deleteplan={deleteplan}
           />
       </ScrollView>
 
-      <BalanceInsertion
+      <InsertionOverlay
         visible={isOverlay}
         onClose={() => setIsOverlay(false)} // Close overlay when Cancel or Submit is pressed
         onSubmit={handleAddEntry}
+        paymentMethodes={balances}
       />
     </SafeAreaView>
   )
 }
 
-export default BalancePage
+export default PlanScreen
 
 const styles = StyleSheet.create({
   container:{

@@ -2,7 +2,7 @@ import React from 'react';
 import { Image } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '../screens/Home'; 
-import Plans from '../screens/Plans';
+import Plans from '../screens/PlanScreen';
 import Balance from '../screens/BalancePage' ;
 import Report from '../screens/Report';
 
