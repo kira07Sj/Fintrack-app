@@ -1,7 +1,7 @@
 import { View,Text, StyleSheet, ImageBackground } from "react-native"
-import { Expense, Balance, Plans } from "../../types";
-import CheckBox from "./checkBox";
-
+import { Balance, Plans } from "../../types";
+import CheckBox from "./CheckBox";
+import { useState } from "react";
 
 interface plansProps
 {
@@ -10,18 +10,26 @@ interface plansProps
 }
 
 export default function CardPlan({plans, balanceInfo}: plansProps){
+
+    const [isChecked, setIsChecked] = useState(false);
+    const handleCheckChange = (checked: boolean) => {
+        setIsChecked(checked);
+      };
     return(
         <View style={styles.card}>
 
             <View style={styles.content}>
-                <Text style={styles.innerText}>{plans.name}</Text>
-                <View style={{display:'flex', flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
+                <Text style={[
+            styles.innerText,
+            isChecked && styles.onCheck, // Apply strike-through if checked
+          ]}>{plans.name}</Text>
+                <View style={[{display:'flex', flexDirection:'row', alignItems:'center', justifyContent:'center'},isChecked && styles.onCheck]}>
                     <Text style={styles.innerText}>{plans.amount}</Text>
                     <Text style={styles.text}>birr</Text>
                 </View>
             </View>
 
-            <View style={styles.paymentBox}>
+            <View style={[styles.paymentBox,isChecked && styles.onCheck]}>
                 <Text style={styles.text}>payment method</Text>
                 <ImageBackground 
                 source={require('../../assets/cardBg.png')}
@@ -29,8 +37,13 @@ export default function CardPlan({plans, balanceInfo}: plansProps){
                 >
                     <Text style={styles.paymentText}>{balanceInfo?.name}</Text>
 
-                    <CheckBox/>
+                    
                 </ImageBackground>
+
+                
+            </View>
+            <View style={styles.CheckBox}>
+                <CheckBox onCheckChange={handleCheckChange}/>
             </View>
         </View>
     )
@@ -42,7 +55,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         width: 300,
-        height: 175,
+        height: 160,
         justifyContent: 'center',
         alignItems:"center",
         marginLeft:10,
@@ -113,6 +126,20 @@ const styles = StyleSheet.create({
         marginBottom:10
         
     },
+    onCheck:{
+        color:'#127350',
+        fontSize: 24,
+        fontWeight:'bold',
+        opacity:.7,
+        textDecorationLine:'line-through'
+
+    },
+    CheckBox:
+    {
+        position:'absolute',
+        bottom:20,
+        right:30
+    }
 
     
 });

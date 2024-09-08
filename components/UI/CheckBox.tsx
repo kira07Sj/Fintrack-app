@@ -1,11 +1,22 @@
 import React, { useState } from 'react';
 import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 
-export default function CustomCheckbox() {
+interface CheckBoxProps {
+  onCheckChange?: (checked: boolean) => void;
+}
+
+export default function CheckBox({ onCheckChange }: CheckBoxProps) {
   const [checked, setChecked] = useState(false);
 
+  const handlePress = () => {
+    setChecked(!checked);
+    if (onCheckChange) {
+      onCheckChange(!checked);
+    }
+  };
+
   return (
-    <TouchableOpacity onPress={() => setChecked(!checked)} style={styles.checkboxContainer}>
+    <TouchableOpacity onPress={handlePress} style={styles.checkboxContainer}>
       <View style={[styles.checkbox, checked && styles.checked]} />
       <Text style={styles.label}>{checked ? '' : ''}</Text>
     </TouchableOpacity>

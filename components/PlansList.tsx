@@ -12,6 +12,7 @@ export default function PlansList({
     balances: Balance[];
     plans: Plans[];
     deleteplan: (id:number) => Promise<void>;
+    
 })  {
   return (
     <View>
