@@ -2,18 +2,18 @@ import React from 'react'
 import { StyleSheet, View, Text, ImageBackground, TouchableOpacity} from 'react-native'
 import { useState } from 'react';
 import MenuOverlay from './MenuOverlay';
+import { useTheme } from '../Hooks/ThemeProvider ';
 
 function Header(){
   
   
   const [isOverlay, setIsOverlay] = useState(false);
 
-  function submit(){
+  const { isDarkMode } = useTheme();
 
-  }
 
   return (
-    <View style ={styles.container}>
+    <View style ={[styles.container, isDarkMode ? styles.Darkmode : styles.lightMode]}>
       <ImageBackground
           source={require('../assets/logo.png')}
           style={styles.img}
@@ -36,11 +36,11 @@ function Header(){
 const styles = StyleSheet.create({
     container: {
       width: '100%',
-      height:65,
+      height:85,
       flexDirection: 'row',
-      justifyContent: 'space-between',      
-      backgroundColor:'#fff',
-      marginTop:30,
+      justifyContent: 'space-between',  
+      paddingTop:40,
+      paddingBottom:30,
       alignItems:'center',
       
     },
@@ -52,6 +52,12 @@ const styles = StyleSheet.create({
   {
     width: 35,
     height:35
+  },
+  lightMode:{
+    backgroundColor:'white'
+  },
+  Darkmode:{
+    backgroundColor:'#1F1F1F'
   }
   });
 

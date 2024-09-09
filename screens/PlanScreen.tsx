@@ -7,10 +7,10 @@ import { Balance, Plans } from '../types';
 import { useFocusEffect } from '@react-navigation/native';
 import CardPlan from '../components/UI/CardPlan';
 import PlansList from '../components/PlansList';
-
+import { useTheme } from '../Hooks/ThemeProvider ';
 
 function PlanScreen(){
-
+  const { isDarkMode } = useTheme();
   const [balances, setBalances] = useState<Balance[]>([]);
   const [plans, setPlans] = useState<Plans[]>([]);
   
@@ -61,10 +61,10 @@ function PlanScreen(){
 
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, isDarkMode ? styles.Darkmode : styles.lightMode]}>
       
       <View style={styles.btnArea}>
-        <Text style={styles.text}>Plans</Text>
+        <Text style={[styles.text,isDarkMode ? styles.darkModeText : styles.lightMode]}>Plans</Text>
 
         <TouchableOpacity style={styles.btn} onPress={() => setIsOverlay(true)}>
           <Text style={styles.btnText}>Add</Text>
@@ -94,7 +94,7 @@ export default PlanScreen
 const styles = StyleSheet.create({
   container:{
     width: '100%',
-    marginVertical:10
+    paddingVertical:10
   },
   Scrollcontainer:{
     height: '90%'
@@ -129,5 +129,15 @@ const styles = StyleSheet.create({
   fontSize: 15,
   fontWeight: '700'
 
-}
+},
+lightMode:{
+  backgroundColor:'#F3F3F3'
+},
+Darkmode:{
+  backgroundColor:'#161616'
+},
+darkModeText:
+  {
+    color:'#1BCA8B',
+  }
 })

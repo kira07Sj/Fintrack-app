@@ -7,13 +7,14 @@ import CardBalance from '../components/UI/CardBalance';
 import BalanceList from '../components/BalanceList';
 import BalanceInsertion from '../components/BalanceInsertion'
 import { useFocusEffect } from '@react-navigation/native';
+import { useTheme } from '../Hooks/ThemeProvider ';
 
 
 function BalancePage(){
 
   
   const [isOverlay, setIsOverlay] = useState(false);
-
+  const { isDarkMode } = useTheme();
   const [balances, setBalances] = useState<Balance[]>([]);
   const db = useSQLiteContext();
 
@@ -63,10 +64,10 @@ function handleAddEntry(name: string, amount: number) {
 
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container,isDarkMode ? styles.Darkmode : styles.lightMode]}>
       
       <View style={styles.btnArea}>
-        <Text style={styles.text}>Balances</Text>
+        <Text style={[styles.text,isDarkMode ? styles.darkModeText : styles.lightMode]}>Balances</Text>
 
         <TouchableOpacity style={styles.btn} onPress={() => setIsOverlay(true)}>
           <Text style={styles.btnText}>Add</Text>
@@ -94,10 +95,10 @@ export default BalancePage
 const styles = StyleSheet.create({
   container:{
     width: '100%',
-    marginVertical:10
+    paddingVertical:10
   },
   Scrollcontainer:{
-    height: '90%'
+    height: '92%'
   },
   btnArea: {
     width: 300,
@@ -129,5 +130,19 @@ const styles = StyleSheet.create({
   fontSize: 15,
   fontWeight: '700'
 
+},
+lightMode:{
+  backgroundColor:'#F3F3F3'
+},
+Darkmode:{
+  backgroundColor:'#161616',
+  borderColor:'#1BCA8B'
+},
+darkModeText:
+{
+  color:'#1BCA8B',
+},
+darkModeUnderLine:{
+  borderBottomColor: '#1BCA8B'
 }
 })

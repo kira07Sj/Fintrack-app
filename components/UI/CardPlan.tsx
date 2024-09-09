@@ -2,6 +2,7 @@ import { View,Text, StyleSheet, ImageBackground } from "react-native"
 import { Balance, Plans } from "../../types";
 import CheckBox from "./CheckBox";
 import { useState } from "react";
+import { useTheme } from "../../Hooks/ThemeProvider ";
 
 interface plansProps
 {
@@ -11,26 +12,28 @@ interface plansProps
 
 export default function CardPlan({plans, balanceInfo}: plansProps){
 
+    const { isDarkMode } = useTheme();
+
     const [isChecked, setIsChecked] = useState(false);
     const handleCheckChange = (checked: boolean) => {
         setIsChecked(checked);
       };
     return(
-        <View style={styles.card}>
+        <View style={[styles.card,isDarkMode ? styles.Darkmode : styles.lightMode]}>
 
-            <View style={styles.content}>
+            <View style={[styles.content,isDarkMode ? styles.darkModeUnderLine : styles.lightMode]}>
                 <Text style={[
             styles.innerText,
-            isChecked && styles.onCheck, // Apply strike-through if checked
+            isChecked && styles.onCheck,isDarkMode ? styles.darkModeText : styles.lightMode // Apply strike-through if checked
           ]}>{plans.name}</Text>
                 <View style={[{display:'flex', flexDirection:'row', alignItems:'center', justifyContent:'center'},isChecked && styles.onCheck]}>
-                    <Text style={styles.innerText}>{plans.amount}</Text>
-                    <Text style={styles.text}>birr</Text>
+                    <Text style={[styles.innerText,isDarkMode ? styles.darkModeText : styles.lightMode]}>{plans.amount}</Text>
+                    <Text style={[styles.text,isDarkMode ? styles.darkModeText : styles.lightMode]}>birr</Text>
                 </View>
             </View>
 
             <View style={[styles.paymentBox,isChecked && styles.onCheck]}>
-                <Text style={styles.text}>payment method</Text>
+                <Text style={[styles.text,isDarkMode ? styles.darkModeText : styles.lightMode]}>payment method</Text>
                 <ImageBackground 
                 source={require('../../assets/cardBg.png')}
                 style={styles.payBox}
@@ -139,6 +142,20 @@ const styles = StyleSheet.create({
         position:'absolute',
         bottom:20,
         right:30
+    },
+    lightMode:{
+      
+    },
+    Darkmode:{
+      backgroundColor:'#1F1F1F',
+      borderColor:'#1BCA8B'
+    },
+    darkModeText:
+    {
+      color:'#1BCA8B',
+    },
+    darkModeUnderLine:{
+      borderBottomColor: '#1BCA8B'
     }
 
     

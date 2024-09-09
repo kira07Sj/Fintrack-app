@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Modal, View, Text, TextInput, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import { Balance } from '../types';
+import { useTheme } from '../Hooks/ThemeProvider ';
+
 
 interface InsertionOverlayProps {
   visible: boolean;
@@ -11,6 +13,8 @@ interface InsertionOverlayProps {
 }
 
 const InsertionOverlay: React.FC<InsertionOverlayProps> = ({ visible, onClose, paymentMethodes, onSubmit }) => {
+  const { isDarkMode } = useTheme();
+
   const [name, setName] = useState('');
   const [amount, setAmount] = useState('');
   const [selectedPaymentMethodId, setSelectedPaymentMethodId] = useState<number | null>(null);
@@ -32,24 +36,24 @@ const InsertionOverlay: React.FC<InsertionOverlayProps> = ({ visible, onClose, p
   return (
     <Modal visible={visible} animationType="slide" transparent onRequestClose={onClose}>
       <TouchableOpacity style={styles.overlayContainer} >
-        <View style={styles.overlayContent}>
+        <View style={[styles.overlayContent, isDarkMode ? styles.Darkmode : styles.lightMode]}>
           <TouchableOpacity onPress={onClose}>
             <ImageBackground style={styles.closeBtn} source={require('../assets/close.png')} />
           </TouchableOpacity>
           <TextInput
-            style={styles.input}
+            style={[styles.input,isDarkMode ? styles.darkModeText : styles.lightMode]}
             placeholder="Expense Name"
             value={name}
             onChangeText={setName}
           />
           <TextInput
-            style={styles.input}
+            style={[styles.input,isDarkMode ? styles.darkModeText : styles.lightMode]}
             placeholder="Amount"
             value={amount}
             onChangeText={setAmount}
             keyboardType="numeric"
           />
-          <View style={styles.dropdown}>
+          <View style={[styles.dropdown,isDarkMode ? styles.darkModeText : styles.lightMode]}>
             <RNPickerSelect
               onValueChange={(value) => setSelectedPaymentMethodId(value)}
               items={paymentMethodes.map((method) => ({
@@ -135,6 +139,17 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     display: 'flex',
     justifyContent: 'center'
+  },
+  lightMode:{
+    backgroundColor:'white'
+  },
+  Darkmode:{
+    backgroundColor:'#161616'
+  },
+  darkModeText:
+  {
+    color:'#1BCA8B',
+    backgroundColor:'#1F1F1F'
   }
 });
 

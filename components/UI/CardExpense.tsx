@@ -1,5 +1,7 @@
 import { View,Text, StyleSheet, ImageBackground } from "react-native"
 import { Expense, Balance } from "../../types";
+import { useTheme } from "../../Hooks/ThemeProvider ";
+
 
 interface CardExpenseProps
 {
@@ -8,23 +10,27 @@ interface CardExpenseProps
 }
 
 export default function CardExpense({cardExpense, balanceInfo}: CardExpenseProps){
+
+    const { isDarkMode } = useTheme();
+
+
     return(
-        <View style={styles.card}>
+        <View style={[styles.card, isDarkMode ? styles.Darkmode : styles.lightMode]}>
             
             <View style={styles.DateBox}>
-                <Text style={styles.Date}>{cardExpense.date}</Text>
+                <Text style={[styles.Date,isDarkMode ? styles.darkModeText : styles.lightMode]}>{cardExpense.date}</Text>
             </View>
 
-            <View style={styles.content}>
-                <Text style={styles.innerText}>{cardExpense.name}</Text>
+            <View style={[styles.content, isDarkMode ? styles.darkModeUnderLine : styles.lightMode]}>
+                <Text style={[styles.innerText, isDarkMode ? styles.darkModeText : styles.lightMode]}>{cardExpense.name}</Text>
                 <View style={{display:'flex', flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
-                    <Text style={styles.innerText}>{cardExpense.amount}</Text>
-                    <Text style={styles.text}>birr</Text>
+                    <Text style={[styles.innerText,isDarkMode ? styles.darkModeText : styles.lightMode]}>{cardExpense.amount}</Text>
+                    <Text style={[styles.text,isDarkMode ? styles.darkModeText : styles.lightMode]}>birr</Text>
                 </View>
             </View>
 
             <View style={styles.paymentBox}>
-                <Text style={styles.text}>payment method</Text>
+                <Text style={[styles.text,isDarkMode ? styles.darkModeText : styles.lightMode]}>payment method</Text>
                 <ImageBackground 
                 source={require('../../assets/cardBg.png')}
                 style={styles.payBox}
@@ -111,6 +117,20 @@ const styles = StyleSheet.create({
         marginBottom:10
         
     },
+  lightMode:{
+    
+  },
+  Darkmode:{
+    backgroundColor:'#1F1F1F',
+    borderColor:'#1BCA8B'
+  },
+  darkModeText:
+  {
+    color:'#1BCA8B',
+  },
+  darkModeUnderLine:{
+    borderBottomColor: '#1BCA8B'
+  }
 
     
 });

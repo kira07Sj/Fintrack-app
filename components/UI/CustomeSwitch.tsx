@@ -1,23 +1,22 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { useTheme } from '../../Hooks/ThemeProvider ';
+
 
 const CustomSwitch = () => {
-  const [isEnabled, setIsEnabled] = useState(false);
+    const { isDarkMode, toggleDarkMode } = useTheme();
 
-  const toggleSwitch = () => {
-    setIsEnabled((previousState) => !previousState);
-  };
+  
 
   return (
     <View style={styles.container}>
-        <Text style={styles.label}>{isEnabled ? 'Dark Mode' : 'Light Mode'}</Text>
-      <TouchableOpacity
-        style={[styles.switch, isEnabled ? styles.switchEnabled : styles.switchDisabled]}
-        onPress={toggleSwitch}
+      <Text style={styles.label}>Dark Mode</Text>
+      <TouchableOpacity 
+        style={[styles.switch, isDarkMode ? styles.switchEnabled : styles.switchDisabled]} 
+        onPress={toggleDarkMode}
       >
-        <View style={[styles.switchCircle, isEnabled ? styles.switchCircleEnabled : styles.switchCircleDisabled]} />
+        <View style={[styles.switchCircle, isDarkMode ? styles.switchCircleEnabled : styles.switchCircleDisabled]} />
       </TouchableOpacity>
-      
     </View>
   );
 };

@@ -1,6 +1,8 @@
 import React from 'react'
 import { View, Text , StyleSheet} from 'react-native'
 import { Balance } from '../../types'
+import { useTheme } from '../../Hooks/ThemeProvider '
+
 
 interface CardBalanceProps
 {
@@ -8,12 +10,14 @@ interface CardBalanceProps
 }
 
 const CardBalance = ({balanceInfo}: CardBalanceProps) => {
+
+  const { isDarkMode } = useTheme();
   return (
-    <View style={styles.card}>
-      <Text style={styles.Name}>{balanceInfo.name}</Text>
+    <View style={[styles.card,isDarkMode ? styles.Darkmode : styles.lightMode]}>
+      <Text style={[styles.Name,isDarkMode ? styles.darkModeText : styles.lightMode]}>{balanceInfo.name}</Text>
       <View style={styles.innerText}>
-        <Text style={styles.amount}>{balanceInfo.amount}</Text>
-        <Text style={styles.birr}>birr</Text>
+        <Text style={[styles.amount,isDarkMode ? styles.darkModeText : styles.lightMode]}>{balanceInfo.amount}</Text>
+        <Text style={[styles.birr,isDarkMode ? styles.darkModeText : styles.lightMode]}>birr</Text>
       </View>
     </View>
   )
@@ -58,5 +62,19 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#127350',
         
+    },
+    lightMode:{
+      
+    },
+    Darkmode:{
+      backgroundColor:'#1F1F1F',
+      borderColor:'#1BCA8B'
+    },
+    darkModeText:
+    {
+      color:'#1BCA8B',
+    },
+    darkModeUnderLine:{
+      borderBottomColor: '#1BCA8B'
     }
 })

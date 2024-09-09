@@ -6,6 +6,7 @@ import ExpensesList from '../components/ExpensesList';
 import Card from '../components/UI/Card';
 import InsertionOverlay from '../components/InsertionOverlay';
 import { useFocusEffect } from '@react-navigation/native';
+import { useTheme } from '../Hooks/ThemeProvider ';
 
 function Home() {
   const [balances, setBalances] = useState<Balance[]>([]);
@@ -17,6 +18,7 @@ function Home() {
 
   const db = useSQLiteContext();
   const [isOverlay, setIsOverlay] = useState(false);
+  const { isDarkMode } = useTheme();
 
   useEffect(() => {
     db.withTransactionAsync(async () => {
@@ -54,20 +56,19 @@ function Home() {
     try {
       await db.withTransactionAsync(async () => {
         // Fetch the expense details using its ID
-        const expenseResult = await db.getAllAsync<{ amount: number; payment_method_id: number }>(
+        const expenseResult = await db.getAllAsync<{ amount: number; balance_id: number }>(
           `SELECT amount, balance_id FROM expense WHERE id = ?`,
           [id]
         );
   
         // Check if the expense exists before proceeding
         if (expenseResult.length > 0) {
-          const { amount, payment_method_id } = expenseResult[0];
-          
+          const { amount, balance_id } = expenseResult[0];
+  
           // Update the balance: Add the amount back to the balance of the corresponding payment method
           await db.runAsync(
             `UPDATE balance SET amount = amount + ? WHERE id = ?`,
-            [amount, payment_method_id]
-            
+            [amount, balance_id]
           );
   
           // Delete the expense from the expense table
@@ -79,12 +80,13 @@ function Home() {
         }
       });
   
-      // Refresh the data after deletion and balance update
+      // Refresh the data to update the screen after deletion
       await getData();
     } catch (error) {
       console.error('Error deleting expense and updating balance:', error);
     }
   }
+  
   
 
   function handleAddEntry(name: string, amount: number, paymentMethodId: number, date: string) {
@@ -105,10 +107,10 @@ function Home() {
   
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, isDarkMode ? styles.Darkmode : styles.lightMode]}>
       <Card totalValue={totalAmountByMonth} />
       <View style={styles.btnArea}>
-        <Text style={styles.text}>Expenses</Text>
+        <Text style={[styles.text,isDarkMode ? styles.darkModeText : styles.lightMode]}>Expenses</Text>
 
         <TouchableOpacity style={styles.btn} onPress={() => setIsOverlay(true)}>
           <Text style={styles.btnText}>Add</Text>
@@ -135,10 +137,10 @@ function Home() {
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    marginVertical: 10,
+    paddingVertical: 10,
   },
   scrollContainer: {
-    height: '50%',
+    height: '52%',
   },
   btnArea: {
     width: 300,
@@ -170,7 +172,17 @@ const styles = StyleSheet.create({
   fontSize: 15,
   fontWeight: '700'
 
-}
+},
+lightMode:{
+  backgroundColor:'#F3F3F3'
+},
+Darkmode:{
+  backgroundColor:'#161616'
+},
+darkModeText:
+  {
+    color:'#1BCA8B',
+  }
 });
 
 export default Home;

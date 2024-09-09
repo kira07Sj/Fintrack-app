@@ -3,6 +3,8 @@ import { Modal, View, Text, TextInput, StyleSheet, TouchableOpacity, ImageBackgr
 import RNPickerSelect from 'react-native-picker-select';
 import { Balance } from '../types';
 import CustomSwitch from './UI/CustomeSwitch';
+import { useTheme } from '../Hooks/ThemeProvider ';
+
 
 interface MenuOverlayProps {
   visible: boolean;
@@ -13,11 +15,12 @@ interface MenuOverlayProps {
 
 const MenuOverlay: React.FC<MenuOverlayProps> = ({ visible, onClose }) => {
  
+    const { isDarkMode } = useTheme();
 
   return (
     <Modal visible={visible} animationType="none" transparent onRequestClose={onClose}>
       <TouchableOpacity style={styles.overlayContainer} >
-        <View style={styles.overlayContent}>
+        <View style={[styles.overlayContent, isDarkMode ? styles.Darkmode : styles.lightMode]}>
           <TouchableOpacity onPress={onClose}>
             <ImageBackground style={styles.closeBtn} source={require('../assets/back.png')} />
           </TouchableOpacity>
@@ -100,6 +103,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     display: 'flex',
     justifyContent: 'center'
+  },
+  lightMode:{
+    backgroundColor:'white'
+  },
+  Darkmode:{
+    backgroundColor:'#1F1F1F'
   }
 });
 
