@@ -4,46 +4,75 @@ import RNPickerSelect from 'react-native-picker-select';
 import { Balance } from '../types';
 import CustomSwitch from './UI/CustomeSwitch';
 import { useTheme } from '../Hooks/ThemeProvider ';
+import ResetOverlay from './ResetOverlay';
 
 
 interface MenuOverlayProps {
   visible: boolean;
   onClose: () => void;
   
-
 }
 
 const MenuOverlay: React.FC<MenuOverlayProps> = ({ visible, onClose }) => {
  
     const { isDarkMode } = useTheme();
+   
+  const [isOverlay, setIsOverlay] = useState(false);
 
   return (
     <Modal visible={visible} animationType="none" transparent onRequestClose={onClose}>
-      <TouchableOpacity style={styles.overlayContainer} >
+      <View style={styles.overlayContainer} >
+        
         <View style={[styles.overlayContent, isDarkMode ? styles.Darkmode : styles.lightMode]}>
-          <TouchableOpacity onPress={onClose}>
+        <TouchableOpacity onPress={onClose}>
             <ImageBackground style={styles.closeBtn} source={require('../assets/back.png')} />
           </TouchableOpacity>
+        <View>
+          <Text style={styles.Text}>Settings</Text>
+        </View>
 
           <View>
             <CustomSwitch/>
+          </View>
+
+          <View style={styles.List}>
+            <TouchableOpacity onPress={()=> setIsOverlay(true) }>
+              <Text style={styles.label}>Reset Progress</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.List}>
+            <TouchableOpacity>
+              <Text style={styles.label}>Help</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.List}>
+            <TouchableOpacity>
+              <Text style={styles.label}>About Us</Text>
+            </TouchableOpacity>
           </View>
           
           
           
         </View>
-      </TouchableOpacity>
+        <ResetOverlay
+            visible={isOverlay}
+            onClose={()=>setIsOverlay(false)}
+        />
+      </View>
     </Modal>
   );
 };
 
 const styles = StyleSheet.create({
   overlayContainer: {
-    
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   overlayContent: {
     width: '70%',
-    height: 600,
+    height: 300,
     padding: 20,
     backgroundColor: 'white',
     shadowColor: '#000',
@@ -54,7 +83,8 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     position:'absolute',
-    right:1
+    right:1,
+    marginTop:0
   },
   title: {
     fontSize: 20,
@@ -82,12 +112,12 @@ const styles = StyleSheet.create({
     elevation: 3
   },
   closeBtn: {
-    width: 35,
+    width: 45,
     height: 30,
-    position: 'relative',
-    marginRight: 200,
-    marginBottom: 5,
-    marginTop: -10
+    position: 'absolute',
+    right: 70,
+    marginBottom: 3,
+    marginTop: 0
   },
   btnText: {
     fontSize: 15,
@@ -109,6 +139,26 @@ const styles = StyleSheet.create({
   },
   Darkmode:{
     backgroundColor:'#1F1F1F'
+  },
+  Text:{
+    color:'#22D293',
+    fontSize:20,
+    fontWeight:'bold',
+    marginBottom:15
+  },
+  label: {
+    fontSize: 16,
+    color:'#22D293',
+    marginRight:'33%',
+    
+  },
+  List:{
+    paddingVertical:10,
+    width:'110%',
+    borderBottomWidth:1,
+    borderBottomColor:'#22D293',
+    paddingHorizontal:10,
+    marginTop:5
   }
 });
 

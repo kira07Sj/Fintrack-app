@@ -1,7 +1,7 @@
 // Card.tsx
 
 import React, { PropsWithChildren } from 'react';
-import { View, Text, StyleSheet, ImageBackground, ViewStyle } from 'react-native';
+import { View, Text, StyleSheet, ImageBackground, ViewStyle, SafeAreaView } from 'react-native';
 import { TotalAmount } from '../../types';
 
 interface CardProps
@@ -11,7 +11,8 @@ interface CardProps
 
 export default function Card({totalValue}: CardProps) {
     return (
-        <ImageBackground
+        <SafeAreaView style={styles.container}>
+            <ImageBackground
             source={require('../../assets/cardBg.png')} // Relative path to the image
             style={styles.card}
         >
@@ -30,18 +31,22 @@ export default function Card({totalValue}: CardProps) {
                 </View>
             </View>
         </ImageBackground>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
+    container:{
+        display:'flex',
+        paddingHorizontal:10
+    },
     card: {
         display: 'flex',
         flexDirection: 'column',
-        width: 300,
+        width: '100%',
         height: 170,
         justifyContent: 'center',
         alignItems:"center",
-        marginLeft:10,
         borderRadius: 10,
         overflow: 'hidden',
         gap: 5 // Ensures children don't overflow the card bounds

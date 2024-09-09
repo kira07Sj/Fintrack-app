@@ -25,8 +25,12 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    marginVertical: 10,
+    justifyContent: 'space-between',
+    paddingVertical: 10,
+    borderBottomColor:'#22D293',
+    borderBottomWidth:1,
+    paddingHorizontal:10,
+    width:'100%'
   },
   switch: {
     width: 50,
@@ -56,11 +60,9 @@ const styles = StyleSheet.create({
     // Add any extra styling for the disabled state if needed
   },
   label: {
-    marginLeft: 10,
     fontSize: 16,
-    fontWeight: 'bold',
     color:'#22D293',
-    marginRight:30
+    marginRight:'33%',
   },
 });
 

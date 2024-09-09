@@ -103,13 +103,12 @@ const styles = StyleSheet.create({
     width:'100%',
   },
   btnArea: {
-    width: 300,
+    width: "100%",
     height: 30,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignContent: 'center',
-    marginLeft: 10,
     marginVertical: 10,
     paddingHorizontal:10
   },

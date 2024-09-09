@@ -1,4 +1,4 @@
-import { View,Text, StyleSheet, ImageBackground } from "react-native"
+import { View,Text, StyleSheet, ImageBackground, SafeAreaView } from "react-native"
 import { Balance, Plans } from "../../types";
 import CheckBox from "./CheckBox";
 import { useState } from "react";
@@ -19,49 +19,54 @@ export default function CardPlan({plans, balanceInfo}: plansProps){
         setIsChecked(checked);
       };
     return(
-        <View style={[styles.card,isDarkMode ? styles.Darkmode : styles.lightMode]}>
+        <SafeAreaView style={styles.container}>
+            <View style={[styles.card,isDarkMode ? styles.Darkmode : styles.lightMode]}>
 
-            <View style={[styles.content,isDarkMode ? styles.darkModeUnderLine : styles.lightMode]}>
-                <Text style={[
-            styles.innerText,
-            isChecked && styles.onCheck,isDarkMode ? styles.darkModeText : styles.lightMode // Apply strike-through if checked
-          ]}>{plans.name}</Text>
-                <View style={[{display:'flex', flexDirection:'row', alignItems:'center', justifyContent:'center'},isChecked && styles.onCheck]}>
-                    <Text style={[styles.innerText,isDarkMode ? styles.darkModeText : styles.lightMode]}>{plans.amount}</Text>
-                    <Text style={[styles.text,isDarkMode ? styles.darkModeText : styles.lightMode]}>birr</Text>
-                </View>
-            </View>
+<View style={[styles.content,isDarkMode ? styles.darkModeUnderLine : styles.lightMode]}>
+    <Text style={[
+styles.innerText,
+isChecked && styles.onCheck,isDarkMode ? styles.darkModeText : styles.lightMode // Apply strike-through if checked
+]}>{plans.name}</Text>
+    <View style={[{display:'flex', flexDirection:'row', alignItems:'center', justifyContent:'center'},isChecked && styles.onCheck]}>
+        <Text style={[styles.innerText,isDarkMode ? styles.darkModeText : styles.lightMode]}>{plans.amount}</Text>
+        <Text style={[styles.text,isDarkMode ? styles.darkModeText : styles.lightMode]}>birr</Text>
+    </View>
+</View>
 
-            <View style={[styles.paymentBox,isChecked && styles.onCheck]}>
-                <Text style={[styles.text,isDarkMode ? styles.darkModeText : styles.lightMode]}>payment method</Text>
-                <ImageBackground 
-                source={require('../../assets/cardBg.png')}
-                style={styles.payBox}
-                >
-                    <Text style={styles.paymentText}>{balanceInfo?.name}</Text>
+<View style={[styles.paymentBox,isChecked && styles.onCheck]}>
+    <Text style={[styles.text,isDarkMode ? styles.darkModeText : styles.lightMode]}>payment method</Text>
+    <ImageBackground 
+    source={require('../../assets/cardBg.png')}
+    style={styles.payBox}
+    >
+        <Text style={styles.paymentText}>{balanceInfo?.name}</Text>
 
-                    
-                </ImageBackground>
+        
+    </ImageBackground>
 
-                
-            </View>
-            <View style={styles.CheckBox}>
-                <CheckBox onCheckChange={handleCheckChange}/>
-            </View>
-        </View>
+    
+</View>
+<View style={styles.CheckBox}>
+    <CheckBox onCheckChange={handleCheckChange}/>
+</View>
+</View>
+        </SafeAreaView>
     )
 }
 
 
 const styles = StyleSheet.create({
+    container:{
+        display:'flex',
+        paddingHorizontal:10
+    },
     card: {
         display: 'flex',
         flexDirection: 'column',
-        width: 300,
+        width: "100%",
         height: 160,
         justifyContent: 'center',
         alignItems:"center",
-        marginLeft:10,
         borderRadius: 10,
         overflow: 'hidden',
         gap: 5,
