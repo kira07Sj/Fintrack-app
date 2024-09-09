@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Modal, View, Text, TextInput, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import { Balance } from '../types';
+import CustomSwitch from './UI/CustomeSwitch';
 
 interface MenuOverlayProps {
   visible: boolean;
@@ -14,12 +15,16 @@ const MenuOverlay: React.FC<MenuOverlayProps> = ({ visible, onClose }) => {
  
 
   return (
-    <Modal visible={visible} animationType="fade" transparent onRequestClose={onClose}>
+    <Modal visible={visible} animationType="none" transparent onRequestClose={onClose}>
       <TouchableOpacity style={styles.overlayContainer} >
         <View style={styles.overlayContent}>
           <TouchableOpacity onPress={onClose}>
             <ImageBackground style={styles.closeBtn} source={require('../assets/back.png')} />
           </TouchableOpacity>
+
+          <View>
+            <CustomSwitch/>
+          </View>
           
           
           
