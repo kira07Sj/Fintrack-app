@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text , StyleSheet} from 'react-native'
+import { View, Text , StyleSheet, SafeAreaView} from 'react-native'
 import { Balance } from '../../types'
 import { useTheme } from '../../Hooks/ThemeProvider '
 
@@ -13,26 +13,31 @@ const CardBalance = ({balanceInfo}: CardBalanceProps) => {
 
   const { isDarkMode } = useTheme();
   return (
-    <View style={[styles.card,isDarkMode ? styles.Darkmode : styles.lightMode]}>
+    <SafeAreaView style={styles.container}>
+      <View style={[styles.card,isDarkMode ? styles.Darkmode : styles.lightMode]}>
       <Text style={[styles.Name,isDarkMode ? styles.darkModeText : styles.lightMode]}>{balanceInfo.name}</Text>
       <View style={styles.innerText}>
         <Text style={[styles.amount,isDarkMode ? styles.darkModeText : styles.lightMode]}>{balanceInfo.amount}</Text>
         <Text style={[styles.birr,isDarkMode ? styles.darkModeText : styles.lightMode]}>birr</Text>
       </View>
     </View>
+    </SafeAreaView>
   )
 }
 
 export default CardBalance
 
 const styles = StyleSheet.create({
+  container:{
+      display:'flex',
+      paddingHorizontal:10
+  },
     card:{
         display: 'flex',
         flexDirection: 'row',
-        width: 300,
+        width: '100%',
         height: 80,
         backgroundColor: 'white',
-        marginLeft: 10,
         borderRadius: 10,
         borderColor: '#22D293',
         borderWidth:1,

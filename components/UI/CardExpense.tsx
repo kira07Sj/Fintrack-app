@@ -1,4 +1,4 @@
-import { View,Text, StyleSheet, ImageBackground } from "react-native"
+import { View,Text, StyleSheet, ImageBackground, SafeAreaView } from "react-native"
 import { Expense, Balance } from "../../types";
 import { useTheme } from "../../Hooks/ThemeProvider ";
 
@@ -15,7 +15,8 @@ export default function CardExpense({cardExpense, balanceInfo}: CardExpenseProps
 
 
     return(
-        <View style={[styles.card, isDarkMode ? styles.Darkmode : styles.lightMode]}>
+        <SafeAreaView style={styles.container}>
+            <View style={[styles.card, isDarkMode ? styles.Darkmode : styles.lightMode]}>
             
             <View style={styles.DateBox}>
                 <Text style={[styles.Date,isDarkMode ? styles.darkModeText : styles.lightMode]}>{cardExpense.date}</Text>
@@ -39,26 +40,30 @@ export default function CardExpense({cardExpense, balanceInfo}: CardExpenseProps
                 </ImageBackground>
             </View>
         </View>
+        </SafeAreaView>
     )
 }
 
 
 const styles = StyleSheet.create({
+    container:{
+        display:'flex',
+        paddingHorizontal:10
+    },
     card: {
         display: 'flex',
         flexDirection: 'column',
-        width: 300,
+        width: '100%',
         height: 175,
         justifyContent: 'center',
         alignItems:"center",
-        marginLeft:10,
         borderRadius: 10,
         overflow: 'hidden',
         gap: 5,
         backgroundColor:'white',
         borderWidth:1,
         borderColor:'#1D966A',
-        marginBottom:10
+        marginBottom:10,
     },
     content: {
        display:'flex',

@@ -137,10 +137,14 @@ function Home() {
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    paddingVertical: 10,
+    paddingTop: 10,
+    flex: 1,
+    position: 'relative',
+    justifyContent:'center'
   },
   scrollContainer: {
-    height: '52%',
+    width:'100%',
+    height:'100%'
   },
   btnArea: {
     width: 300,

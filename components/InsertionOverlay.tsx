@@ -35,7 +35,7 @@ const InsertionOverlay: React.FC<InsertionOverlayProps> = ({ visible, onClose, p
 
   return (
     <Modal visible={visible} animationType="slide" transparent onRequestClose={onClose}>
-      <TouchableOpacity style={styles.overlayContainer} >
+      <View style={styles.overlayContainer} >
         <View style={[styles.overlayContent, isDarkMode ? styles.Darkmode : styles.lightMode]}>
           <TouchableOpacity onPress={onClose}>
             <ImageBackground style={styles.closeBtn} source={require('../assets/close.png')} />
@@ -67,7 +67,7 @@ const InsertionOverlay: React.FC<InsertionOverlayProps> = ({ visible, onClose, p
             <Text style={styles.btnText}>Add</Text>
           </TouchableOpacity>
         </View>
-      </TouchableOpacity>
+      </View>
     </Modal>
   );
 };

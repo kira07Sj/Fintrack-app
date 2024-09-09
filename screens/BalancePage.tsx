@@ -95,10 +95,12 @@ export default BalancePage
 const styles = StyleSheet.create({
   container:{
     width: '100%',
-    paddingVertical:10
+    flex: 1,
+    position: 'relative',
+    justifyContent:'center'
   },
   Scrollcontainer:{
-    height: '92%'
+    width:'100%',
   },
   btnArea: {
     width: 300,
