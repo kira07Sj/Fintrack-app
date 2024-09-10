@@ -95,7 +95,8 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginTop:-20
   },
   input: {
     width: '95%',
