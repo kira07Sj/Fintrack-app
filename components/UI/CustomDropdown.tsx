@@ -6,6 +6,7 @@ import {
   FlatList,
   Modal,
   StyleSheet,
+  ImageBackground
 } from 'react-native';
 
 interface CustomDropdownProps {
@@ -34,9 +35,16 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
         style={styles.dropdownButton}
         onPress={() => setIsVisible(!isVisible)}
       >
+        <View style={styles.textArea}>
         <Text style={styles.dropdownButtonText}>
           {selectedValue ? selectedValue : label}
         </Text>
+            <ImageBackground
+
+                source={require("../../assets/arrow_drop_down.png")}
+                style={styles.dropdownIcon}
+            />
+        </View>
       </TouchableOpacity>
 
       {isVisible && (
@@ -68,18 +76,22 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    margin: 10,
+    width:"100%"
   },
   dropdownButton: {
-    padding: 15,
+    width: '100%',
+    height: 45,
+    borderColor: 'gray',
     borderWidth: 1,
-    borderColor: '#ccc',
+    marginBottom: 15,
+    paddingHorizontal: 10,
     borderRadius: 5,
-    backgroundColor: '#f9f9f9',
+    display:'flex',
+    justifyContent:"center"
   },
   dropdownButtonText: {
-    fontSize: 16,
-    color: '#333',
+    fontSize: 14,
+    color: 'rgba(0,0,0,0.6)',
   },
   modalOverlay: {
     flex: 1,
@@ -93,15 +105,29 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 10,
     elevation: 5,
+    paddingVertical:15
   },
   item: {
     paddingVertical: 10,
     paddingHorizontal: 15,
+    borderBottomWidth:.7,
+    
   },
   itemText: {
     fontSize: 16,
     color: '#333',
   },
+  textArea:{
+    display:'flex',
+    justifyContent:'space-between',
+    alignItems:'center',
+    flexDirection:'row'
+  },
+  dropdownIcon:
+  {
+    width:24,
+    height:24
+  }
 });
 
 export default CustomDropdown;

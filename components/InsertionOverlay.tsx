@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Modal, View, Text, TextInput, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
-import RNPickerSelect from 'react-native-picker-select';
 import { Balance } from '../types';
 import { useTheme } from '../Hooks/ThemeProvider ';
+import CustomDropdown from './UI/CustomDropdown';
 
 interface InsertionOverlayProps {
   visible: boolean;
@@ -57,16 +57,19 @@ const InsertionOverlay: React.FC<InsertionOverlayProps> = ({ visible, onClose, p
             onChangeText={setAmount}
             keyboardType="numeric"
           />
-          <View style={[styles.dropdown, isDarkMode ? styles.darkModeText : styles.lightMode]}>
-            <RNPickerSelect
-              onValueChange={(value) => setSelectedPaymentMethodId(value)}
-              items={paymentMethodes.map((method) => ({
+          
+          {/* Replace RNPickerSelect with CustomDropdown */}
+          <View style={styles.dropdown}>
+            <CustomDropdown
+              label="Select Payment Method"
+              data={paymentMethodes.map((method) => ({
                 label: method.name,
                 value: method.id,
               }))}
-              placeholder={{ label: 'Select payment method...', value: null }}
+              onSelect={(value) => setSelectedPaymentMethodId(value)}
             />
           </View>
+          
           <TouchableOpacity style={styles.btn} onPress={handleSubmit}>
             <Text style={styles.btnText}>Add</Text>
           </TouchableOpacity>
@@ -96,7 +99,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     display: 'flex',
     alignItems: 'center',
-    marginTop:-20
+    marginTop: -20
   },
   input: {
     width: '95%',
@@ -130,15 +133,8 @@ const styles = StyleSheet.create({
     fontWeight: '700'
   },
   dropdown: {
-    borderWidth: 1,
     width: '95%',
-    height: 45,
-    borderColor: 'gray',
     marginBottom: 15,
-    paddingHorizontal: 10,
-    borderRadius: 5,
-    display: 'flex',
-    justifyContent: 'center'
   },
   lightMode: {
     backgroundColor: 'white'
