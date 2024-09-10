@@ -5,7 +5,7 @@ import { Balance } from '../types';
 import CustomSwitch from './UI/CustomeSwitch';
 import { useTheme } from '../Hooks/ThemeProvider ';
 import ResetOverlay from './ResetOverlay';
-
+import HelpOverlay from './HelpOverlay'
 
 interface MenuOverlayProps {
   visible: boolean;
@@ -18,6 +18,7 @@ const MenuOverlay: React.FC<MenuOverlayProps> = ({ visible, onClose }) => {
     const { isDarkMode } = useTheme();
    
   const [isOverlay, setIsOverlay] = useState(false);
+  const [isHelpOverlay, setIsHelpOverlay] = useState(false);
 
   return (
     <Modal visible={visible} animationType="none" transparent onRequestClose={onClose}>
@@ -31,6 +32,7 @@ const MenuOverlay: React.FC<MenuOverlayProps> = ({ visible, onClose }) => {
           <Text style={styles.Text}>Settings</Text>
         </View>
 
+          <View style={styles.cont}>
           <View>
             <CustomSwitch/>
           </View>
@@ -42,7 +44,7 @@ const MenuOverlay: React.FC<MenuOverlayProps> = ({ visible, onClose }) => {
           </View>
 
           <View style={styles.List}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={()=>setIsHelpOverlay(true)}>
               <Text style={styles.label}>Help</Text>
             </TouchableOpacity>
           </View>
@@ -52,6 +54,7 @@ const MenuOverlay: React.FC<MenuOverlayProps> = ({ visible, onClose }) => {
               <Text style={styles.label}>About Us</Text>
             </TouchableOpacity>
           </View>
+          </View>
           
           
           
@@ -59,6 +62,11 @@ const MenuOverlay: React.FC<MenuOverlayProps> = ({ visible, onClose }) => {
         <ResetOverlay
             visible={isOverlay}
             onClose={()=>setIsOverlay(false)}
+        />
+
+        <HelpOverlay
+            visible={isHelpOverlay}
+            onCloseHelp={()=>setIsHelpOverlay(false)}
         />
       </View>
     </Modal>
@@ -83,9 +91,16 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     position:'absolute',
-    right:1,
+    right:1, 
     marginTop:0
   },
+cont:{
+  width:'100%',
+  height:'100%',
+  display:'flex',
+  flexDirection:'column',
+  alignItems:'flex-start'
+},
   title: {
     fontSize: 20,
     fontWeight: 'bold',

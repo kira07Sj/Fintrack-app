@@ -34,12 +34,7 @@ export default function App() {
       .catch((e) => console.error(e));
   }, []); // Ensure this useEffect only runs once when the component mounts
 
-  if (!dbLoaded) return (
-    <View style={styles.loading}>
-      <Text>Loading...</Text>
-      <ActivityIndicator size={'small'} />
-    </View>
-  );
+ 
 
   return (
     <ThemeProvider> 

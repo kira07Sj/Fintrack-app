@@ -40,18 +40,18 @@ const InsertionOverlay: React.FC<InsertionOverlayProps> = ({ visible, onClose, p
   return (
     <Modal visible={visible} animationType="slide" transparent onRequestClose={onClose}>
       <View style={styles.overlayContainer}>
-        <View style={[styles.overlayContent, isDarkMode ? styles.Darkmode : styles.lightMode]}>
+        <View style={[styles.overlayContent, ]}>
           <TouchableOpacity onPress={onClose}>
             <ImageBackground style={styles.closeBtn} source={require('../assets/close.png')} />
           </TouchableOpacity>
           <TextInput
-            style={[styles.input, isDarkMode ? styles.darkModeText : styles.lightMode]}
+            style={[styles.input, ]}
             placeholder="Expense Name"
             value={name}
             onChangeText={setName}
           />
           <TextInput
-            style={[styles.input, isDarkMode ? styles.darkModeText : styles.lightMode]}
+            style={[styles.input, ]}
             placeholder="Amount"
             value={amount}
             onChangeText={setAmount}
@@ -63,7 +63,7 @@ const InsertionOverlay: React.FC<InsertionOverlayProps> = ({ visible, onClose, p
             <CustomDropdown
               label="Select Payment Method"
               data={paymentMethodes.map((method) => ({
-                label: method.name,
+                label: method.name ,
                 value: method.id,
               }))}
               onSelect={(value) => setSelectedPaymentMethodId(value)}

@@ -108,8 +108,8 @@ const styles = StyleSheet.create({
     paddingVertical:15
   },
   item: {
-    paddingVertical: 10,
-    paddingHorizontal: 15,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
     borderBottomWidth:.7,
     
   },
