@@ -6,6 +6,8 @@ import CustomSwitch from './UI/CustomeSwitch';
 import { useTheme } from '../Hooks/ThemeProvider ';
 import ResetOverlay from './ResetOverlay';
 import HelpOverlay from './HelpOverlay'
+import AboutUsOverlay from './AboutUsOverlay';
+
 
 interface MenuOverlayProps {
   visible: boolean;
@@ -19,10 +21,12 @@ const MenuOverlay: React.FC<MenuOverlayProps> = ({ visible, onClose }) => {
    
   const [isOverlay, setIsOverlay] = useState(false);
   const [isHelpOverlay, setIsHelpOverlay] = useState(false);
+  const [isAboutOverlay, setIsAboutOverlay] = useState(false);
+  
 
   return (
     <Modal visible={visible} animationType="none" transparent onRequestClose={onClose}>
-      <View style={styles.overlayContainer} >
+      <TouchableOpacity style={styles.overlayContainer} onPress={onClose}>
         
         <View style={[styles.overlayContent, isDarkMode ? styles.Darkmode : styles.lightMode]}>
         <TouchableOpacity onPress={onClose}>
@@ -50,7 +54,7 @@ const MenuOverlay: React.FC<MenuOverlayProps> = ({ visible, onClose }) => {
           </View>
 
           <View style={styles.List}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={()=> setIsAboutOverlay(true)}>
               <Text style={styles.label}>About Us</Text>
             </TouchableOpacity>
           </View>
@@ -68,7 +72,12 @@ const MenuOverlay: React.FC<MenuOverlayProps> = ({ visible, onClose }) => {
             visible={isHelpOverlay}
             onCloseHelp={()=>setIsHelpOverlay(false)}
         />
-      </View>
+
+        <AboutUsOverlay
+            visible={isAboutOverlay} 
+            onClose={()=> setIsAboutOverlay(false)}
+        />
+      </TouchableOpacity>
     </Modal>
   );
 };
