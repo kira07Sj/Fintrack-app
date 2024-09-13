@@ -14,7 +14,7 @@ const ResetOverlay: React.FC<ResetOverlayProps> = ({ visible, onClose }) => {
 
   async function onReset() {
     try {
-      await db.runAsync('DELETE FROM expense'); // Delete all rows from the expense table
+      await db.runAsync('DELETE FROM expense'); // Delete all rows from the tables
       await db.runAsync('DELETE FROM balance');
       await db.runAsync('DELETE FROM plans');
       onClose(); // Close the modal after deletion

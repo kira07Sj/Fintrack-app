@@ -2,13 +2,23 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Svg, { G, Path } from 'react-native-svg';
 
-interface chartProps{
-  totalAmount: number
+// Define the type for the chart data
+interface ChartData {
+  label: string;
+  value: number;
+  color: string;
 }
 
-const Chart = ({ data, radius = 100, strokeWidth = 0,  }) => {
+// Define the props for the Chart component
+interface ChartProps {
+  data: ChartData[];
+  radius?: number;
+  strokeWidth?: number;
+}
+
+const Chart: React.FC<ChartProps> = ({ data, radius = 100, strokeWidth = 0 }) => {
   // Helper function to calculate the arcs for the chart
-  const calculateArcs = (data) => {
+  const calculateArcs = (data: ChartData[]) => {
     const total = data.reduce((sum, item) => sum + item.value, 0);
     let startAngle = 0;
 
@@ -73,12 +83,10 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   labelsContainer: {
-    marginTop:15,
+    marginTop: 15,
     paddingTop: 25,
     width: '100%',
-    paddingHorizontal:10,
-    
-
+    paddingHorizontal: 10,
   },
   label: {
     fontSize: 16,
@@ -92,9 +100,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flexDirection: 'row',
     borderTopWidth: 0.5,
-    paddingVertical:10,
-    paddingHorizontal:10,
-    borderTopColor:'#1BCA8B'
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    borderTopColor: '#1BCA8B',
   },
   chart: {
     padding: 2,
