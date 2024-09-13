@@ -69,12 +69,16 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+    padding: 15,
     width: '100%',
   },
   labelsContainer: {
-    marginTop: 20,
+    marginTop:15,
+    paddingTop: 25,
     width: '100%',
+    paddingHorizontal:10,
+    
+
   },
   label: {
     fontSize: 16,
@@ -101,8 +105,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   innerRadius: {
-    width: '55%',
-    height: '75%',
+    width: 150,
+    height: 150,
     backgroundColor: 'white',
     position: 'absolute',
     borderRadius: 999,

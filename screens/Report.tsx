@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   },
   scrollContainer:{
     width:'100%',
-    flex:1
+    flex:1,
   },
   lightMode: {
     backgroundColor: 'white',
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
   totalAmountText:{
     fontSize:28,
     position:'absolute',
-    top:'22%',
+    top:140,
     left:"41%",
     zIndex:30,
     fontWeight:'bold',
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
   innertext:{
     
     position:'absolute',
-    top:'20%',
+    top:125,
     left:"36%",
     zIndex:30,
   },
