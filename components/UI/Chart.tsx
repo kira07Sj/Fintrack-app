@@ -2,7 +2,11 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Svg, { G, Path } from 'react-native-svg';
 
-const Chart = ({ data, radius = 100, strokeWidth = 0 }) => {
+interface chartProps{
+  totalAmount: number
+}
+
+const Chart = ({ data, radius = 100, strokeWidth = 0,  }) => {
   // Helper function to calculate the arcs for the chart
   const calculateArcs = (data) => {
     const total = data.reduce((sum, item) => sum + item.value, 0);
@@ -31,21 +35,30 @@ const Chart = ({ data, radius = 100, strokeWidth = 0 }) => {
   };
 
   const arcs = calculateArcs(data);
-
+  
   return (
     <View style={styles.container}>
-      <Svg style={styles.chart} width={radius * 2} height={radius * 2}>
-        <G>
-          {arcs.map((arc, index) => (
-            <Path key={index} d={arc.pathData} fill={arc.color} stroke="white" strokeWidth={strokeWidth} />
-          ))}
-        </G>
-      </Svg>
+      <View style={styles.chart}>
+        <Svg width={radius * 2} height={radius * 2}>
+          <G>
+            {arcs.map((arc) => (
+              <Path key={arc.label} d={arc.pathData} fill={arc.color} stroke="white" strokeWidth={strokeWidth} />
+            ))}
+          </G>
+        </Svg>
+        <View style={styles.innerRadius} />
+      </View>
       <View style={styles.labelsContainer}>
-        {arcs.map((arc, index) => (
-          <Text key={index} style={[styles.label, { color: arc.color }]}>
-            {arc.label}: {arc.value} 
-          </Text>
+        {arcs.map((arc) => (
+          <View key={arc.label} style={styles.eachLabel}>
+            <Text style={[styles.label, { color: arc.color }]}>
+              {arc.label}:  
+            </Text>
+
+            <Text style={[styles.label, { color: arc.color }]}>
+              {arc.value}  
+            </Text>
+          </View>
         ))}
       </View>
     </View>
@@ -57,23 +70,44 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
-    width:'100%'
+    width: '100%',
   },
   labelsContainer: {
     marginTop: 20,
-    width:'80%'
-    
-    
+    width: '100%',
   },
   label: {
     fontSize: 16,
     fontWeight: 'bold',
-    paddingVertical:5
+    paddingVertical: 5,
   },
-  chart:
-  {
-    padding:10
-  }
+  eachLabel: {
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    borderTopWidth: 0.5,
+    paddingVertical:10,
+    paddingHorizontal:10,
+    borderTopColor:'#1BCA8B'
+  },
+  chart: {
+    padding: 2,
+    backgroundColor: 'white',
+    borderRadius: 9999,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  innerRadius: {
+    width: '55%',
+    height: '75%',
+    backgroundColor: 'white',
+    position: 'absolute',
+    borderRadius: 999,
+    alignContent: 'center',
+  },
 });
 
 export default Chart;
