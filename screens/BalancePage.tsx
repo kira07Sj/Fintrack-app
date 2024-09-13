@@ -3,7 +3,6 @@ import { View, Text, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity} fro
 import { Balance } from '../types';
 import { useState } from 'react';
 import { useSQLiteContext } from 'expo-sqlite';
-import CardBalance from '../components/UI/CardBalance';
 import BalanceList from '../components/BalanceList';
 import BalanceInsertion from '../components/BalanceInsertion'
 import { useFocusEffect } from '@react-navigation/native';
