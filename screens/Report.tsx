@@ -47,7 +47,29 @@ function Report() {
   };
 
   const getRandomColor = (index) => {
-    const colors = ['#ff6384', '#36a2eb', '#ffcd56', '#4bc0c0', '#f56954'];
+    const colors = [
+      '#ff6384', // Red
+      '#36a2eb', // Blue
+      '#ffcd56', // Yellow
+      '#4bc0c0', // Teal
+      '#f56954', // Orange
+      '#9966ff', // Purple
+      '#ff9f40', // Light Orange
+      '#c9cbcf', // Gray
+      '#2ecc71', // Green
+      '#3498db', // Sky Blue
+      '#9b59b6', // Violet
+      '#e74c3c', // Bright Red
+      '#f1c40f', // Bright Yellow
+      '#34495e', // Navy Blue
+      '#1abc9c', // Mint Green
+      '#e67e22', // Pumpkin Orange
+      '#ecf0f1', // Light Gray
+      '#8e44ad', // Dark Violet
+      '#d35400', // Dark Orange
+      '#bdc3c7', // Silver
+    ];
+    
     return colors[index % colors.length];
   };
 
