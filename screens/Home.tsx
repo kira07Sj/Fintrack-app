@@ -62,6 +62,12 @@ function Home() {
                   balance_id INTEGER,
                   FOREIGN KEY (balance_id) REFERENCES balance (id)
               );`)
+              await db.runAsync(`
+                CREATE TABLE IF NOT EXISTS appUtil (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                settingName TEXT UNIQUE, 
+                settingValue TEXT 
+                );`)
     
   }
   async function getData() {
@@ -137,7 +143,7 @@ function Home() {
     });
   }
   
-
+  
   return (
     <SafeAreaView style={[styles.container, isDarkMode ? styles.Darkmode : styles.lightMode]}>
       <Card totalValue={totalAmountByMonth} />

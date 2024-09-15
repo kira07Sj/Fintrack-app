@@ -32,6 +32,13 @@ CREATE TABLE IF NOT EXISTS plans
     FOREIGN KEY (balance_id) REFERENCES balance (id)
 );
 
+CREATE TABLE IF NOT EXISTS appUtil (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    settingName TEXT UNIQUE, -- e.g., 'darkMode' or 'Get Started Screen'
+    settingValue TEXT -- Store 'true' or 'false' as strings for boolean settings
+);
+
+
 --3 sample inputs
 
 -- balance table
@@ -53,3 +60,6 @@ INSERT INTO expense (name, amount, date, balance_id) VALUES ('Transport', '260',
 INSERT INTO plans (name, amount, balance_id) VALUES ('Gym', '800', 1);
 INSERT INTO plans (name, amount, balance_id) VALUES ('Voice package', '35', 2);
 
+--appUtil
+INSERT INTO appUtil (settingName, settingValue) VALUES ('darkMode', 'false');
+INSERT INTO appUtil (settingName, settingValue) VALUES ('GetStartd', 'true');

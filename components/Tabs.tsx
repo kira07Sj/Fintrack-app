@@ -14,6 +14,7 @@ function Tabs() {
       screenOptions={{
         tabBarStyle: {
           backgroundColor: '#129E6C', // Set your desired background color here
+          height:55
         },
         tabBarActiveTintColor: '#fff',
         tabBarInactiveTintColor: '#fff',
