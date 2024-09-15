@@ -13,8 +13,11 @@ function BalancePage(){
 
   
   const [isOverlay, setIsOverlay] = useState(false);
+  const [isUpdateOverlay, setIsUpdateOverlay] = useState(false);
+  
   const { isDarkMode } = useTheme();
   const [balances, setBalances] = useState<Balance[]>([]);
+  const [selectedBalance, setSelectedBalance] = useState<Balance | null>(null); 
   const db = useSQLiteContext();
 
   useEffect(() => {
@@ -48,19 +51,33 @@ async function deleteBalance(id:number) {
 }
 
 function handleAddEntry(name: string, amount: number) {
-  db.withTransactionAsync(async () => {
-    await db.runAsync(
-      `INSERT INTO balance (name, amount) VALUES (?, ?);`,
-      [name, amount] 
-    );
-
-    
-
-    await getData(); // Refresh data after insertion
-  });
+  if (selectedBalance) {
+    // Update the existing balance
+    db.withTransactionAsync(async () => {
+      await db.runAsync(
+        'UPDATE balance SET name = ?, amount = ? WHERE id = ?',
+        [name, amount, selectedBalance.id]
+      );
+      await getData();
+    });
+  } else {
+    // Insert new balance
+    db.withTransactionAsync(async () => {
+      await db.runAsync(
+        'INSERT INTO balance (name, amount) VALUES (?, ?)',
+        [name, amount]
+      );
+      await getData(); // Refresh data after insertion
+    });
+  }
+  setIsOverlay(false); // Close the overlay after submission
+  setSelectedBalance(null); // Reset selected balance
 }
 
-
+function handleCardPress(balance: Balance) {
+  setSelectedBalance(balance); // Set the selected balance
+  setIsUpdateOverlay(true); // Open the overlay for editing
+}
 
   return (
     <SafeAreaView style={[styles.container,isDarkMode ? styles.Darkmode : styles.lightMode]}>
@@ -76,7 +93,8 @@ function handleAddEntry(name: string, amount: number) {
       <ScrollView style={styles.Scrollcontainer}>
           <BalanceList
               balances={balances} 
-              deleteBalance={deleteBalance}      
+              deleteBalance={deleteBalance}
+              onCardPress={handleCardPress}     
           />
       </ScrollView>
 
@@ -84,6 +102,13 @@ function handleAddEntry(name: string, amount: number) {
         visible={isOverlay}
         onClose={() => setIsOverlay(false)} // Close overlay when Cancel or Submit is pressed
         onSubmit={handleAddEntry}
+        btnText='Add'
+      />
+      <BalanceInsertion
+        visible={isUpdateOverlay}
+        onClose={() => setIsUpdateOverlay(false)} // Close overlay when Cancel or Submit is pressed
+        onSubmit={handleAddEntry}
+        btnText='Update'
       />
     </SafeAreaView>
   )

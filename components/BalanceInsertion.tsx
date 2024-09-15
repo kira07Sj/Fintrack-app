@@ -5,9 +5,10 @@ interface InsertionOverlayProps {
   visible: boolean;
   onClose: () => void;
   onSubmit: (name: string, amount: number) => void; // Removed paymentMethodId and date
+  btnText: string
 }
 
-const InsertionOverlay: React.FC<InsertionOverlayProps> = ({ visible, onClose, onSubmit }) => {
+const InsertionOverlay: React.FC<InsertionOverlayProps> = ({ visible, onClose, onSubmit, btnText }) => {
   const [name, setName] = useState('');
   const [amount, setAmount] = useState('');
 
@@ -44,7 +45,7 @@ const InsertionOverlay: React.FC<InsertionOverlayProps> = ({ visible, onClose, o
             keyboardType="numeric"
           />
           <TouchableOpacity style={styles.btn} onPress={handleSubmit}>
-            <Text style={styles.btnText}>Add</Text>
+            <Text style={styles.btnText}>{btnText}</Text>
           </TouchableOpacity>
         </View>
       </TouchableOpacity>
