@@ -22,6 +22,7 @@ function Home() {
 
   useEffect(() => {
     db.withTransactionAsync(async () => {
+      await initialize(db);
       await getData();
     });
   }, [db]);
@@ -32,6 +33,37 @@ function Home() {
     }, [])
   );
 
+  async function initialize(db) {
+        //create tables if not exist
+        await db.runAsync(`CREATE TABLE IF NOT EXISTS balance
+                        (
+                            id INTEGER PRIMARY KEY AUTOINCREMENT,
+                            name TEXT NOT NULL,
+                            amount REAL NOT NULL
+                        );`)
+
+              await db.runAsync(`
+              CREATE TABLE IF NOT EXISTS expense
+              (
+                  id INTEGER PRIMARY KEY AUTOINCREMENT,
+                  name TEXT NOT NULL,
+                  amount REAL NOT NULL,
+                  date INT NOT NULL,
+                  balance_id INTEGER,
+                  FOREIGN KEY (balance_id) REFERENCES balance (id)
+              );`)
+
+        await db.runAsync(`
+              CREATE TABLE IF NOT EXISTS plans
+              (
+                  id INTEGER PRIMARY KEY AUTOINCREMENT,
+                  name TEXT NOT NULL,
+                  amount REAL NOT NULL,
+                  balance_id INTEGER,
+                  FOREIGN KEY (balance_id) REFERENCES balance (id)
+              );`)
+    
+  }
   async function getData() {
     const expenseResult = await db.getAllAsync<Expense>(`SELECT * FROM expense ORDER BY id DESC`);
     setExpenses(expenseResult);

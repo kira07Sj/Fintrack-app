@@ -27,7 +27,7 @@ const LoadDatabase = async () => {
 
 export default function App() {
   const [dbLoaded, setDbLoaded] = useState<boolean>(false);
-
+    
   useEffect(() => {
     LoadDatabase()
       .then(() => setDbLoaded(true))
@@ -49,13 +49,3 @@ export default function App() {
     </ThemeProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  loading: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 5
-  }
-});
