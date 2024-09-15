@@ -90,9 +90,11 @@ function Report() {
       
       <ScrollView style={styles.scrollContainer}>
       <Text style={styles.Text}>Report</Text>
+      <View style={styles.innerCircle}>
       <View style={styles.textHolder}>
            <Text >Total Expenses</Text>
            <Text style={styles.totalText}>{totalExpenses.toFixed(2)}</Text>
+      </View>
       </View>
         {pieData.length > 0 ? (
           <Chart data={pieData} radius={100} strokeWidth={2} />
@@ -142,9 +144,20 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     alignItems:'center',
     position:'absolute',
-    top:125,
+    top:44,
     zIndex:10,
-    left:110
+    width: 150,
+    height: 150,
+    backgroundColor: 'white',
+    borderRadius: 999,
+    alignContent: 'center',
+  },
+  innerCircle:{
+    display:'flex',
+    justifyContent:'center',
+    alignItems:'center',
+    zIndex:20,
+    width:"100%",
   }
 });
 

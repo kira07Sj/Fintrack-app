@@ -56,7 +56,7 @@ const Chart: React.FC<ChartProps> = ({ data, radius = 100, strokeWidth = 0 }) =>
             ))}
           </G>
         </Svg>
-        <View style={styles.innerRadius} />
+        
       </View>
       <View style={styles.labelsContainer}>
         {arcs.map((arc) => (
@@ -112,14 +112,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  innerRadius: {
-    width: 150,
-    height: 150,
-    backgroundColor: 'white',
-    position: 'absolute',
-    borderRadius: 999,
-    alignContent: 'center',
-  },
+  
 });
 
 export default Chart;
